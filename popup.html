@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { width: 200px; padding: 10px; font-family: sans-serif; }
+    button { width: 100%; padding: 10px; cursor: pointer; background: #0078d4; color: white; border: none; border-radius: 4px; }
+    button:disabled { background: #ccc; }
+    #status { margin-top: 10px; font-size: 12px; color: #666; }
+  </style>
+</head>
+<body>
+  <h3>eeclass 工具</h3>
+  <button id="downloadBtn">開始轉換 PDF</button>
+  <div id="status"></div>
+  <script src="jspdf.umd.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

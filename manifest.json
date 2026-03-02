@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "eeclass PDF Downloader",
+  "version": "1.0",
+  "description": "自動下載 eeclass 頁面中的 slide 圖片並轉為 PDF",
+  "permissions": ["activeTab", "scripting"],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
