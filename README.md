@@ -1,3 +1,3 @@
 # eeclass pdf downloader
 
-download pdf from eeclass
+An extension to download pdf from eeclass.
