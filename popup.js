@@ -8,9 +8,10 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
 
   chrome.scripting.executeScript({
     target: { tabId: tab.id },
-    func: grabImages
+    func: grabImagesAndTitle
   }, async (results) => {
-    const imageUrls = results[0].result;
+    const imageUrls = results[0].result.urls;
+    const title = results[0].result.title;
     
     if (!imageUrls || imageUrls.length === 0) {
       status.innerText = "找不到任何投影片圖片！";
@@ -61,47 +62,20 @@ document.getElementById('downloadBtn').addEventListener('click', async () => {
     }
 
     if (pdf) {
-      pdf.save("eeclass_slides_fixed.pdf");
+      pdf.save(`${title}.pdf`);
       status.innerText = "下載完成！";
     }
-    ///////
-    // const { jsPDF } = window.jspdf;
-    // const pdf = new jsPDF();
 
-    // for (let i = 0; i < imageUrls.length; i++) {
-    //   status.innerText = `處理中 (${i + 1}/${imageUrls.length})`;
-      
-    //   try {
-    //     const imgData = await getBase64Image(imageUrls[i]);
-        
-    //     // 取得圖片比例以適應 PDF 頁面
-    //     const img = new Image();
-    //     img.src = imgData;
-    //     await img.decode();
-        
-    //     const pageWidth = pdf.internal.pageSize.getWidth();
-    //     const pageHeight = pdf.internal.pageSize.getHeight();
-    //     const ratio = img.width / img.height;
-    //     const width = pageWidth;
-    //     const height = pageWidth / ratio;
-    //     // const height = pageHeight;
-
-
-    //     if (i > 0) pdf.addPage();
-    //     pdf.addImage(imgData, 'JPEG', 0, 0, width, height);
-    //   } catch (err) {
-    //     console.error("圖片載入失敗: " + imageUrls[i]);
-    //   }
-    // }
-
-    // pdf.save("eeclass_slides.pdf");
-    // status.innerText = "下載完成！";
     btn.disabled = false;
+
+    setTimeout(() => {
+      window.close();
+    }, 500);
   });
 });
 
 // 在目標網頁執行的函式
-function grabImages() {
+function grabImagesAndTitle() {
   const slides = document.querySelectorAll('section.slide img');
   const urls = [];
   slides.forEach(img => {
@@ -112,7 +86,28 @@ function grabImages() {
     }
     urls.push(src);
   });
-  return urls;
+  
+  let title  = document.querySelector('.title').innerHTML;
+  const default_title = "eeclass_slides.pdf";
+  let start = 0;
+  let end = title.length-1;
+  for(i=0;i<title.length;i++){
+    if(title[i]==' ' || title[i]=='\n' || title[i]=='\t') {start++;}
+    else {break;}
+  }
+  for(i=title.length-1;i>=0;i--){
+    if(title[i]==' ' || title[i]=='\n' || title[i]=='\t') {end--;}
+    else {break;}
+  }
+
+  if(start < end){
+    title = title.substring(start,end+1);
+  }
+  else {
+    title = default_title;
+  }
+
+  return {urls,title};
 }
 
 // 將圖片轉為 Base64 以供 jsPDF 使用

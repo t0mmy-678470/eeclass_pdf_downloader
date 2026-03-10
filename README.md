@@ -1,7 +1,5 @@
 # eeclass pdf downloader
 
-An extension to download pdf from eeclass.
-
 ## Usage
 ### Edge
 1. Enter URL `edge://extensions` in your edge browser
@@ -20,3 +18,4 @@ An extension to download pdf from eeclass.
 
 6. Finish!
 <img width="397" height="234" alt="image" src="https://github.com/user-attachments/assets/21a93e7c-ae26-401e-a384-6c2793b9edff" />
+
